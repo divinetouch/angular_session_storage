@@ -77,9 +77,6 @@ describe('localStorageService: myAppLocalStorage', function () {
         expect(myAppLocalStorage.getAnItem('key1')).toBe(undefined);
         expect(myAppLocalStorage.getAnItem('key0').object).toBe("savedItem0");
 
-        myAppLocalStorage.removeAllItems();
-        expect(myAppLocalStorage.getAllItems().length).toBe(0);
-
     }]));
 
 });
