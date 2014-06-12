@@ -1,13 +1,13 @@
 /**
  * Created by divine touch on 6/7/14.
  * Copyright (c) 2014 Divine Touch
-
-
+ 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
  */
 
 angular.module('localStorageService',[]).factory('myAppLocalStorage', function($rootElement){
@@ -65,7 +65,7 @@ angular.module('localStorageService',[]).factory('myAppLocalStorage', function($
     function getAnItem(key){
         var index = getIndex(key);
         if(index > -1){
-            return getAllItems()[index];
+            return getAllItems()[index].item;
         }
         return undefined;
     }
@@ -75,13 +75,21 @@ angular.module('localStorageService',[]).factory('myAppLocalStorage', function($
         if(index > -1){
             allTheItems.splice(index,1);
             updateStorage();
+            return true;
         }
+        return false;
     }
 
     function addToTheStorage(key, item){
 
         if (appStorageExist()){
-            getAllItems().push({"key": key,"item": item});
+            var index = getIndex(key)
+            if(index > -1)
+            {
+                getAllItems()[index].item = item;
+            }else{
+                allTheItems.push({"key": key,"item": item});
+            }
             updateStorage();
         }
         else{
@@ -117,6 +125,10 @@ angular.module('localStorageService',[]).factory('myAppLocalStorage', function($
         updateStorage();
     }
 
+    function getApplicationName(){
+        return applicationName;
+    }
+
     return{
 
         supportSessionStorage: supportSessionStorage,
@@ -125,6 +137,7 @@ angular.module('localStorageService',[]).factory('myAppLocalStorage', function($
         removeAnItem: removeAnItem,
         getAllItems: getAllItems,
         removeAllItems: removeAllItems,
-        setApplicationName: setApplicationName
+        setApplicationName: setApplicationName,
+        getApplicationName: getApplicationName
     }
 })
